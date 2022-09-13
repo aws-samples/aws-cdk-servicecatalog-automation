@@ -67,7 +67,9 @@ npm install -g aws-cdk@2.27.0 --force
 
 # Setup your environment
 To pull down the repo 
+```
 git clone https://github.com/aws-samples/aws-cdk-servicecatalog-automation.git
+```
 This creates a folder named `aws-cdk-servicecatalog-automation`
 Run
 ``` 
@@ -202,6 +204,7 @@ Execute
 ```
 sh setup.sh 
 ```
+
 This will install AWS CDK version mentioned in package.json of cdk-sevicecatalog-app folder and run cdk deploy. This will provisioned the Service catalog portfolio & Product.
 
 ## Review Service Catalog Product
