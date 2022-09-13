@@ -1,0 +1,70 @@
+{
+    "portfolios": [
+        {
+            "portfolioName": "EC2 Product Profile",
+            "providerName": "User1",
+            "description": "Test1",
+            "roles": ["Admin"]
+        },
+        {
+            "portfolioName": "Autoscaling Product Profile",
+            "providerName": "User2",
+            "description": "Test2",
+            "roles": ["Admin"]
+        }
+    ],
+    "tagOption": [
+        {
+            "key": "Group",
+            "value": [
+                "finance",
+                "engineering",
+                "marketing",
+                "research"
+            ]
+        },
+        {
+            "key": "CostCenter",
+            "value": [
+                "01",
+                "02",
+                "03",
+                "04"
+            ]
+        },
+        {
+            "key": "Environment",
+            "value": [
+                "dev",
+                "prod",
+                "stage"
+            ]
+        }
+    ],
+    "products": [
+        {
+            "portfolioName": "EC2 Product Profile",
+            "productName": "Ec2",
+            "owner": "owner1",
+            "productVersionName": "v1",
+            "templatePath": "../../config/templates/template1.json"
+        },
+        {
+            "portfolioName": "Autoscaling Product Profile",
+            "productName": "autoscaling",
+            "owner": "owner1",
+            "productVersionName": "v1",
+            "templatePath": "../../config/templates/template2.json",
+            "deployWithStackSets": {
+                "accounts": [
+                    "012345678901", "012345678902", "012345678903"
+                ],
+                "regions": [
+                    "us-west-2"
+                ],
+                "stackSetAdministrationRoleName":"AWSCloudFormationStackSetAdministrationRole",
+                "stackSetExecutionRoleName": "AWSCloudFormationStackSetExecutionRole"
+            }
+        }
+    ]
+}

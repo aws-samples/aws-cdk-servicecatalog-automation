@@ -40,7 +40,7 @@ Use CDK Application to automate the AWS resource creation of the Multiple servic
 
 
 # Code
-The code for this pattern is available on Gitlab, in the cdk-servicecatalog repository. The code repository contains the following files and folders:
+The code for this pattern is available on github, in the aws-cdk-servicecatalog-automation repository. The code repository contains the following files and folders:
 
 - cdk-sevicecatalog-app folder - Contains Sample CDK Application for Service Catalog portfolio and Product Creation. 
 - config folder - contains config.json file & the CloudFormation Template for service catalog product.
@@ -66,12 +66,13 @@ npm install -g aws-cdk@2.27.0 --force
 
 
 # Setup your environment
-To pull down the repo via ssh, 
-run git clone git@ssh.gitlab.aws.dev:sangawan/cdk-servicecatalog.git
-or via HTTPS
-git clone https://gitlab.aws.dev/sangawan/cdk-servicecatalog.git
-This creates a folder named cdk-servicecatalog
-Run cd cdk-servicecatalog
+To pull down the repo 
+git clone https://github.com/aws-samples/aws-cdk-servicecatalog-automation.git
+This creates a folder named `aws-cdk-servicecatalog-automation`
+Run
+``` 
+cd aws-cdk-servicecatalog-automation
+```
 
 ## Set up AWS credentials in Terminal
 Export the following variables which refer to the AWS Account and region where the stack will be deployed:
@@ -195,115 +196,6 @@ In config.json user need to replace the IAM role name with role present in the a
 }
 
 ```
-Story
-Description
-Skills required
-Set up Parameter	
-These are parameter for config.json file. 
-
-portfolios: List of Portfolio
-portfolioName: The name of the portfolio.
-providerName: The provider name.
-description: Description for portfolio.
-roles: [Optional] List of Role Name . It will Associate portfolio with an IAM Role.This Role must have permission to assumedBy 'servicecatalog.amazonaws.com'. Service catalog Product will be accessible to User of this Role.  
-users: [Optional] List of IAM User Name . Associate portfolio with an IAM User.This Portfolio will accessible IAM user of the account. for more details
-groups: [Optional] List of IAM Group Name. Associate portfolio with an IAM Group.This Portfolio will accessible   IAM user of the account. 
-tagOption: [Optional] Defines a set of TagOptions, which are a list of key-value pairs managed in AWS Service Catalog.This will  apply tags on the provisioned products . For more details 
-key: Name of the Tag Key
-value: Allowed String values for the Tags
-products
-portfolioName: The name of the portfolio.
-productName: The name of the product.
-owner: The owner of the product.
-productVersionName The name of the product version in string value.
-templatePath: File Path of the cloudFormationTemplate for the Product.
-deployWithStackSets[Optional] :A StackSets deployment constraint allows you to configure product deployment options using AWS CloudFormation StackSets. You can specify one or more accounts and regions into which stack instances will launch when the product is provisioned. For more details on  StackSets concepts
-accounts : List of accounts to deploy stacks to target accounts.
-regions: List of regions to deploy stacks to target accounts .
-stackSetAdministrationRoleName : IAM role name used to administer the StackSets configuration in the source account. These should assume stackSetExecutionRole from target account .For  Example:AWSCloudFormationStackSetAdministrationRole  
-stackSetExecutionRoleName: IAM role name from the target account which have trust policy with `stacksetAdministrationRoleName` role from source account . This IAM role is used to deploy the AWS resource in target account through stack set .This role should have permission to execute cloud formation and permission to create resources defined in CloudFormation template provided in templatePath field of the product config. For Example : AWSCloudFormationStackSetExecutionRole . 
-Note if you are using the deployWithStackSets follow instruction to create stackSetAdministrationRoleName & stackSetExecutionRoleName in target account https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html#prereqs-self-managed-permissions
-App developer, AWS DevOps, DevOps engineer
-Configure and Deploy the Service Catalog Portfolio & Product	
-In config.json user need to replace the IAM role name with role present in the account where you want to provision the Service Catalog Portfolio & Product. Sample available in config requires  stackSetAdministrationRoleName  as  "AWSCloudFormationStackSetAdministrationRole" Check if role is available in your source account .If its not present then follow instruction to create IAM role named  "AWSCloudFormationStackSetAdministrationRole" .The role must have this exact name. You can do this by creating a stack from the following AWS CloudFormation template, available online at https://s3.amazonaws.com/cloudformation-stackset-sample-templates-us-east-1/AWSCloudFormationStackSetAdministrationRole.yml.  For more details about the role refer
-
-Here is sample config file with example values.
-{
-    "portfolios": [
-        {
-            "displayName": "EC2 Product Portfolio",
-            "providerName": "User1",
-            "description": "Test1",
-            "roles":[ "<Replace IAM RoleName who can access the Product>"],
-            "users":["<Replace IAM User Name who can access the product>"],
-            "groups":["<Replace IAM Group which can access the Product>"]
-
-        },
-        {
-            "displayName": "Autoscaling Product Portfolio",
-            "providerName": "User2",
-            "description": "Test2",
-            "roles": ["<Replace RoleName>"]
-        }
-    ],
-    "tagOption": [
-        {
-            "key": "Group",
-            "value": [
-                "finance",
-                "engineering",
-                "marketing",
-                "research"
-            ]
-        },
-        {
-            "key": "CostCenter",
-            "value": [
-                "01",
-                "02",
-                "03",
-                "04"
-            ]
-        },
-        {
-            "key": "Environment",
-            "value": [
-                "dev",
-                "prod",
-                "stage"
-            ]
-        }
-    ],
-    "products": [
-        {
-
-            "portfolioName": "EC2 Product Profile"
-            "productName": "Ec2",
-            "owner": "owner1",
-            "productVersionName": "v1",
-            "templatePath": "../../config/templates/template1.json"
-        },
-
-            "portfolioName": "Autoscaling Product Profile"
-            "productName": "autoscaling",
-            "owner": "owner1",
-            "productVersionName": "v1",
-            "templatePath": "../../config/templates/template2.json",
-             "deployWithStackSets": {
-                "accounts": [
-                    "012345678901",
-                ],
-                "regions": [
-                    "us-west-2"
-                ],
-  "stackSetAdministrationRoleName":"AWSCloudFormationStackSetAdministrationRole",
-"stackSetExecutionRoleName": "AWSCloudFormationStackSetExecutionRole"
-            }
-
-        }
-    ]
-}
-Note: Portfolio roles users or group are optional parameter if you have not set any one of the parameter then You will not able to see the above  products in service catalog console.  
 
 ## Deploy the Solution 
 Execute 
@@ -316,13 +208,20 @@ This will install AWS CDK version mentioned in package.json of cdk-sevicecatalog
 Once CDK deploy executed successfully . 
 
 Go to AWS Service Catalog Console . 
-Under Provisioning Section you will see products you have mapped in the config file . For the sample we have used Cloud Formation Template for the EC2 & autoscaling. For walk through purpose i am here referencing EC2 Product. This will create EC2 Instance with security group
+
+Under Provisioning Section you will see products you have mapped in the config file . For the sample we have used Cloud Formation Template for the EC2 & autoscaling. For walk through purpose we are referencing EC2 Product. This will create EC2 Instance with security group
+
 Select any of the Product and click Launch Product. 
+
 Here you can see following Sections
 **Provisioned product name:**  There is check box selected Generate Name . If you want to give custom name You can uncheck and provide name as per your choice.
-**Product Versions:** In this section you see product version name you given in the config file. 
-**Parameters:**In this section you can see the Parameter for cloud formation template. 
+
+**Product Versions:** In this section you see product version name you given in the config file.
+
+**Parameters:** In this section you can see the Parameter for cloud formation template. 
+
 **Manage tags:** In this section you can see  the tagOption you provided in the config file as mandatory tags which enforce to apply the tags on the resources deployed by product.
+
 Once CDK deploy executed successfully . 
 
 
